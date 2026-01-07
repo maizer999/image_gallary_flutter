@@ -1,62 +1,65 @@
 import 'package:flutter/material.dart';
-import '../../../core/utils/app_size.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../../core/style/app_color.dart';
 
 class GeneralButtonComponent extends StatelessWidget {
   final String text;
-  final Function()? onPressed;
-  final Color? color;
-  final String image;
-  const GeneralButtonComponent(
-      {super.key,
-      required this.text,
-      this.onPressed,
-      this.color,
-      required this.image});
+  final VoidCallback onPressed;
+  final String? image;
+
+  const GeneralButtonComponent({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-    return Expanded(
-      child: InkWell(
-        onTap: onPressed,
-        child: Container(
-          height: height * 0.06,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(
-              10.0,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: double.infinity, // makes centering visible
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFF1CB5E0),
+              Color(0xFF2BC0A4),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 6),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: width * 0.1,
-                    height: height * 0.05,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Center(child: Image.asset(image)),
-                  ),
-                  Text(
-                    text,
-                    style: GoogleFonts.balooThambi2(
-                      fontSize: 22,
-                      height: 0.9,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.gray03,
-                    ),
-                  ),
-                ]),
-          ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (image != null) ...[
+              Image.asset(
+                image!,
+                width: 20,
+                height: 20,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 10),
+            ],
+            Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.4,
+              ),
+            ),
+          ],
         ),
       ),
     );

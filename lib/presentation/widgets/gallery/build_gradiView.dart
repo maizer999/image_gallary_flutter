@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../../core/utils/app_string.dart';
 
 class BuildGradViewComponent extends StatelessWidget {
   final List<File> galleryData;
-  final void Function(int) onRemove; // callback for remove
+  final void Function(int) onRemove;
+  final void Function(int)? onTap; // optional tap callback
 
   const BuildGradViewComponent({
     super.key,
     required this.galleryData,
     required this.onRemove,
+    this.onTap,
   });
 
   @override
@@ -23,41 +24,42 @@ class BuildGradViewComponent extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
       itemBuilder: (context, index) {
-        return Stack(
-          children: [
-            // Image
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                image: DecorationImage(
-                  image: galleryData[index].existsSync()
-                      ? FileImage(galleryData[index])
-                      :  AssetImage(AppString.image) as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            // X button
-            Positioned(
-              top: 2,
-              right: 2,
-              child: GestureDetector(
-                onTap: () => onRemove(index),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.close,
-                    size: 18,
-                    color: Colors.white,
+        return GestureDetector(
+          onTap: () {
+            if (onTap != null) onTap!(index);
+          },
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: FileImage(galleryData[index]),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 2,
+                right: 2,
+                child: GestureDetector(
+                  onTap: () => onRemove(index),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

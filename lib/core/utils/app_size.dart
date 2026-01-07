@@ -13,5 +13,7 @@ class AppSize {
   static SizedBox sv_15 = const SizedBox(width: 0.0, height: 15.0);
   static SizedBox sv_20 = const SizedBox(width: 0.0, height: 20.0);
   static SizedBox sv_30 = const SizedBox(width: 0.0, height: 30.0);
+  static SizedBox sv_40 = const SizedBox(width: 0.0, height: 40.0);
+  static SizedBox sv_50 = const SizedBox(width: 0.0, height: 50.0);
   static SizedBox sv_60 = const SizedBox(width: 0.0, height: 60.0);
 }
