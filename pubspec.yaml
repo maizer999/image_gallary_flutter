@@ -37,6 +37,7 @@ dependencies:
   # State management
   flutter_riverpod: ^2.6.1
   riverpod_infinite_scroll_pagination: ^1.0.3
+  multiple_result: ^5.2.0
 
 dev_dependencies:
   flutter_test:
