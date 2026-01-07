@@ -33,15 +33,23 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
-  bloc: ^8.1.4
-  flutter_bloc: ^8.1.6
   google_fonts: ^6.2.1
-  dio: ^5.4.0
   shared_preferences: ^2.2.2
   equatable: ^2.0.5
   dartz: ^0.10.1
   get_it: ^7.6.7
   image_picker: ^1.0.7
+
+  # network
+  dio: ^5.8.0+1
+  dio_intercept_to_curl: ^0.2.0
+  dio_cache_interceptor: ^4.0.5
+  http_cache_hive_store: ^5.0.1
+  flutter_secure_storage: ^10.0.0
+
+  # state management
+  flutter_riverpod: ^2.6.1
+  riverpod_infinite_scroll_pagination: ^1.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
-import 'core/services/cache_helper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/routers/app_routers.dart';
+import 'core/services/cache_helper.dart';
+
+
+late final ProviderContainer providerContainer;
+
 
 Future<void> main() async {
+  providerContainer = ProviderContainer();
+
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-
-  final String token = await CacheHelper.getData('token') ?? '';
-  final String startRoute =
-  token.isNotEmpty ? Routers.galleryScreen : Routers.loginScreen;
-
-  runApp(MyApp(startRoute: startRoute));
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  final String startRoute;
-
-  const MyApp({
-    super.key,
-    required this.startRoute,
-  });
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: RoutersGenerated.onGenerateRoute,
-      initialRoute: startRoute,
+      initialRoute: Routers.loginScreen,
     );
   }
 }
