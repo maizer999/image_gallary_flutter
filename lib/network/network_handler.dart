@@ -9,7 +9,6 @@ import 'package:http_cache_hive_store/http_cache_hive_store.dart';
 import 'package:mime/mime.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../main.dart';
 import '../constant/app_strings.dart';
 import '../exceptions/exceptions.dart';
 import '../utils/secure_storage.dart';
