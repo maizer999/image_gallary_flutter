@@ -103,7 +103,14 @@ class GalleryScreen extends StatelessWidget {
                       valueListenable: imagesNotifier,
                       builder: (context, images, _) {
                         if (images.isNotEmpty) {
-                          return BuildGradViewComponent(galleryData: images);
+                          return BuildGradViewComponent(
+                            galleryData: images,
+                            onRemove: (index) {
+                              imagesNotifier.value = [
+                                ...imagesNotifier.value..removeAt(index)
+                              ];
+                            },
+                          );
                         } else {
                           return const Center(
                             child: Text('No images yet'),
@@ -112,6 +119,7 @@ class GalleryScreen extends StatelessWidget {
                       },
                     ),
                   ),
+
                 ],
               ),
             ),
