@@ -1,13 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/app_string.dart';
 import '../../../core/utils/screen_config.dart';
-import '../../controller/galleryBloc/gallery_bloc.dart';
-import '../../controller/galleryBloc/gallery_event.dart';
 import 'alery_elevated_button.dart';
 
 class ShowAlertDialog extends StatelessWidget {
@@ -44,8 +39,6 @@ class ShowAlertDialog extends StatelessWidget {
                     imagePath: AppString.selectGallery,
                     iconSize: 60.0,
                     onPressed: () {
-                      BlocProvider.of<GalleryBloc>(context).add(
-                          UploadImageEvent(imageSource: ImageSource.gallery));
                       Navigator.pop(context);
                     },
                   ),
@@ -55,8 +48,6 @@ class ShowAlertDialog extends StatelessWidget {
                     imagePath: AppString.selectCamera,
                     iconSize: 60.0,
                     onPressed: () {
-                      BlocProvider.of<GalleryBloc>(context).add(
-                          UploadImageEvent(imageSource: ImageSource.camera));
                       Navigator.pop(context);
                     },
                   ),
