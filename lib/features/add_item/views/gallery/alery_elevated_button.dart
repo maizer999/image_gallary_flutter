@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/style/app_color.dart';
-
-import '../../../core/utils/screen_config.dart';
+import '../../../../core/style/app_color.dart';
+import '../../../../core/utils/screen_config.dart';
 
 class AlertElevatedButton extends StatelessWidget {
   final String text;

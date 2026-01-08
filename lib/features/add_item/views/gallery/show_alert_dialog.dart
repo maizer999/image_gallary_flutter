@@ -1,8 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-
-import '../../../core/utils/app_string.dart';
-import '../../../core/utils/screen_config.dart';
+import '../../../../core/utils/app_string.dart';
+import '../../../../core/utils/screen_config.dart';
 import 'alery_elevated_button.dart';
 
 class ShowAlertDialog extends StatelessWidget {

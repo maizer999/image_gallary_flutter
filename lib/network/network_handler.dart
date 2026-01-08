@@ -107,18 +107,21 @@ class NetworkHandler {
 
   // ========================= Multipart Requests =========================
 
-  Future<Response> postMultipart(
-      {required String endpoint,
-        Map<String, dynamic>? data,
-        Map<String, dynamic>? queryParams,
-        Map<String, String>? headers}) async {
-    final formData = await _prepareFormData(data);
-    return _handleRequest(() => _dio.post(
+  Future<Response> postMultipartFormData({
+    required String endpoint,
+    required FormData formData,
+    Map<String, String>? headers,
+  }) async {
+    final response = await _dio.post(
       endpoint,
       data: formData,
-      queryParameters: queryParams,
-      options: Options(headers: headers),
-    ));
+      options: Options(
+        headers: headers,
+        contentType: "multipart/form-data",
+      ),
+    );
+
+    return response.data;
   }
 
   Future<Response> putMultipart(
@@ -253,7 +256,7 @@ class NetworkHandler {
     final token = await SecureStorageHelper.getAccessToken();
     return {
       'Content-Type': 'multipart/form-data',
-      'Authorization': 'Bearer $token',
+      'Authorization': 'Bearer static_fake_token_123',
     };
   }
 }

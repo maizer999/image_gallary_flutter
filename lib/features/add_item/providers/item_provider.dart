@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:dio/dio.dart';
 
 import '../../../exceptions/exceptions.dart';
 import '../model/item_response.dart';
@@ -24,8 +26,21 @@ class ItemRepository {
     required String city,
     required String state,
     String showOnlyToPremium = "0",
+    List<File>? galleryImages, // ✅ add this
   }) async {
     try {
+      // Convert images to MultipartFile if provided
+      List<MultipartFile>? files;
+      if (galleryImages != null && galleryImages.isNotEmpty) {
+        files = [];
+        for (var file in galleryImages) {
+          files.add(await MultipartFile.fromFile(
+            file.path,
+            filename: file.path.split('/').last,
+          ));
+        }
+      }
+
       final response = await _service.addItem(
         name: name,
         description: description,
@@ -41,6 +56,7 @@ class ItemRepository {
         city: city,
         state: state,
         showOnlyToPremium: showOnlyToPremium,
+        galleryImages: files, // ✅ pass files to service
       );
 
       return Success(response);
@@ -52,8 +68,8 @@ class ItemRepository {
   }
 }
 
+// Provider
 final itemRepositoryProvider = Provider.autoDispose<ItemRepository>((ref) {
   final service = AddItemService();
   return ItemRepository(service);
 });
-

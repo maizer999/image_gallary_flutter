@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../presentation/screens/gallery_screen.dart';
+import '../../features/add_item/views/gallery_screen.dart';
 
 class Routers {
   static const String loginScreen = '/login';
