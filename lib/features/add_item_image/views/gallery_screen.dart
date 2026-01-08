@@ -3,19 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dio/dio.dart';
-
 import '../../../core/utils/app_size.dart';
 import '../../../core/utils/app_string.dart';
 import '../../../core/utils/screen_config.dart';
-import '../../../core/style/app_color.dart';
+import '../../add_item_form/add_item_form.dart';
 import '../providers/item_provider.dart';
 import '../service/add_item_service.dart';
 import 'gallery/build_gradiView.dart';
 import 'gallery/general_button.dart';
 import 'gallery/show_alert_dialog.dart';
-import '../../../exceptions/exceptions.dart';
-import 'package:multiple_result/multiple_result.dart';
 
 final addItemServiceProvider = Provider<AddItemService>((ref) => AddItemService());
 
@@ -54,14 +50,14 @@ class GalleryScreen extends ConsumerWidget {
     late BuildContext dialogContext;
 
     // Show uploading dialog
-    showDialog(
-      context: ref.context,
-      barrierColor: Colors.transparent,
-      builder: (context) {
-        dialogContext = context;
-        return const ShowAlertDialog();
-      },
-    );
+    // showDialog(
+    //   context: ref.context,
+    //   barrierColor: Colors.transparent,
+    //   builder: (context) {
+    //     dialogContext = context;
+    //     return const ShowAlertDialog();
+    //   },
+    // );
 
     try {
       final result = await ref.read(itemRepositoryProvider).addItem(
@@ -83,7 +79,7 @@ class GalleryScreen extends ConsumerWidget {
       );
 
 
-      Navigator.of(dialogContext).pop();
+      // Navigator.of(dialogContext).pop();
 
       result.when(
             (response) {
@@ -91,15 +87,30 @@ class GalleryScreen extends ConsumerWidget {
             SnackBar(content: Text(response.message ?? "Uploaded successfully")),
           );
           imagesNotifier.value = []; // clear images
+
+          // Navigate to AddItemFormScreen after success
+          Navigator.of(ref.context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddItemFormScreen(),
+            ),
+          );
         },
             (error) {
+
+              Navigator.of(ref.context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AddItemFormScreen(),
+                ),
+              );
           ScaffoldMessenger.of(ref.context).showSnackBar(
+
             SnackBar(content: Text(error.toString())),
           );
         },
       );
+
     } catch (e) {
-     Navigator.of(dialogContext).pop();
+     // Navigator.of(dialogContext).pop();
       ScaffoldMessenger.of(ref.context).showSnackBar(
         SnackBar(content: Text("Upload failed: $e")),
       );
