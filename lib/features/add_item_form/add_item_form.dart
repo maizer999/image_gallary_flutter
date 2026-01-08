@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../add_item_image/providers/item_provider.dart';
 
 class AddItemFormScreen extends ConsumerStatefulWidget {
@@ -50,7 +49,7 @@ class _AddItemFormScreenState extends ConsumerState<AddItemFormScreen> {
         videoLink: _videoController.text,
         allCategoryIds: "2",
         address: _addressController.text,
-        latitude: "23.232639", // you can add real GPS if needed
+        latitude: "23.232639",
         longitude: "69.6415341",
         country: _countryController.text,
         city: _cityController.text,
@@ -61,10 +60,11 @@ class _AddItemFormScreenState extends ConsumerState<AddItemFormScreen> {
 
       result.when(
             (response) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(response.message ?? "تم رفع البيانات بنجاح")),
-          );
-          Navigator.of(context).pop(); // back to previous screen
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(content: Text(response.message ?? "تم رفع البيانات بنجاح")),
+          // );
+          _showSuccessDialog("تم رفع البيانات بنجاح" , context);
+          // Navigator.of(context).pop(); // back to previous screen
         },
             (error) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -218,4 +218,47 @@ class _AddItemFormScreenState extends ConsumerState<AddItemFormScreen> {
           ),
         ),
       );
+}
+
+
+void _showSuccessDialog(String message , BuildContext context ) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          // Centers the icon and title area
+          title: const Center(
+            child: Icon(Icons.check_circle, color: Colors.green, size: 60),
+          ),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+          ),
+          // 🔥 This line centers all buttons in the actions list
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            SizedBox(
+              width: double.infinity, // Makes the button wider if you prefer
+              child: TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  "حسناً",
+                  style: GoogleFonts.cairo(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

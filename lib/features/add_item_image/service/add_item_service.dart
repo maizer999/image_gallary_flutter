@@ -62,6 +62,7 @@ class AddItemService {
     print('=======================');
 
     try {
+      print("DEBUG: About to call network.postMultipartFormData");
       final response = await _network.postMultipartFormData(
         endpoint: 'https://admin.shaqaty.com/api/add-item',
         formData: formData,

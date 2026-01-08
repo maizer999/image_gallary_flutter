@@ -112,16 +112,31 @@ class NetworkHandler {
     required FormData formData,
     Map<String, String>? headers,
   }) async {
-    final response = await _dio.post(
-      endpoint,
-      data: formData,
-      options: Options(
-        headers: headers,
-        contentType: "multipart/form-data",
-      ),
-    );
+    try {
+      print("DEBUG: Sending request to $endpoint");
 
-    return response.data;
+      final response = await _dio.post(
+        endpoint,
+        data: formData,
+        options: Options(
+          headers: headers,
+          contentType: "multipart/form-data",
+        ),
+      );
+
+      print("DEBUG: Raw Response received: ${response.statusCode}");
+
+      // 🔥 FIX: Return the whole 'response', NOT 'response.data'
+      return response;
+
+    } on DioException catch (e) {
+      print("DEBUG: Dio Error: ${e.message}");
+      print("DEBUG: Response Data: ${e.response?.data}");
+      rethrow;
+    } catch (e) {
+      print("DEBUG: Unexpected Error: $e");
+      rethrow;
+    }
   }
 
   Future<Response> putMultipart(
